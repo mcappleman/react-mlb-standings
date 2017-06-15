@@ -1,0 +1,45 @@
+'use strict'
+
+var request = require('request');
+var config  = require('../config/config')
+
+module.exports = {
+	getGames
+}
+
+function getGames(day) {
+
+	var url = `${config.MLB_STANDINGS_URL}/games/${day.year()}-${day.month()+1}-${day.date()}`;
+
+	return promisfy(url)
+	.then((response) => {
+
+		var games = response.data;
+		games.forEach((game) => {
+
+			game.standings_favorite = game.home_team.win_percent > game.away_team.win_percent ? game.home_team : game.away_team;
+			game.standings_percent = Number(((game.standings_favorite.win_percent/(game.home_team.win_percent+game.away_team.win_percent))*100).toFixed(2));
+
+		});
+
+		return games;
+
+	})
+	
+}
+
+function promisfy(url) {
+
+	return new Promise((resolve, reject) => {
+
+		request(url, (err, res, data) => {
+
+			if (err) { return reject(err); }
+
+			return resolve(JSON.parse(data));
+
+		});
+
+	});
+
+}

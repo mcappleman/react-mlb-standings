@@ -1,0 +1,14 @@
+.team-section {
+  text-align: center;
+  width: 40px;
+  padding: 15px;
+  display: inline-block;
+  height: 40px;
+}
+
+.divider {
+	width: 40px;
+	display: inline-block;
+    vertical-align: top;
+    margin-top: 36px;
+}
