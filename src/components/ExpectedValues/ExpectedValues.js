@@ -36,7 +36,7 @@ class ExpectedValues extends Component {
 
 	getNumberFireOdds(games) {
 
-		var odds = this.sortOdds(games, 'number_fire_odds');
+		var odds = this.getOdds(games, 'number_fire_odds');
 		var expvalues = this.getExpectedValueArray(odds);
 
 		this.setState({ numberFireValues: expvalues });
@@ -45,37 +45,47 @@ class ExpectedValues extends Component {
 
     getBestStandings(games) {
 
-		var odds = this.sortOdds(games, 'standings_percent');
+		var odds = this.getOdds(games, 'standings_percent');
 		var expvalues = this.getExpectedValueArray(odds);
 
 		this.setState({ standingsValues: expvalues });
         
     }
 
-	sortOdds(array, filter) {
+	getOdds(array, filter) {
+
+		var returnArray = [];
+		var maxOddsArrayLength = this.state.pointValues.length;
+		var sortedArray = array.sort((a, b) => {
+			return b[filter] - a[filter];
+		});
+
+		for (var i = 0; i < maxOddsArrayLength && i < sortedArray.length; i++) {
+
+			var currentValue = sortedArray[i][filter]/100;
+
+			if (returnArray.length === 0) {
+				returnArray.push(currentValue);
+			} else {
+				returnArray.push(currentValue * returnArray[i-1]);
+			}
+
+		}
+
+		return this.convertToReadable(returnArray);
+
+	}
+
+	convertToReadable(array) {
 
 		var returnArray = [];
 
-		for (var i = 0; i < array.length-1; i++) {
+		array.forEach((value) => {
 
-			var maxIndex = i;
+			value = value.toFixed(6);
+			returnArray.push(Number(value));
 
-			for (var j = i; j < array.length-1; j++) {
-
-				if (array[j][filter] > array[maxIndex][filter]) {
-					maxIndex = j;
-				}
-
-			}
-
-			if (i > 0) {
-				returnArray.push((array[maxIndex][filter]/100) * returnArray[returnArray.length-1]);
-			} else {
-				returnArray.push(array[maxIndex][filter]/100);
-			}
-			// delete array[maxIndex];
-
-		}
+		});
 
 		return returnArray;
 
