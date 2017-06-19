@@ -22,28 +22,27 @@ class InProgressGame extends Component {
 
                 <div className="top">
                     <div className="team-section">
-                        <h3>{away_team.team.abbrev}</h3>
+                        <h2 className="team-name">{away_team.team.abbrev}</h2>
                         <span className="team-record">({away_team.wins}-{away_team.losses})</span>
-                        <h3>{this.props.data.away_runs}</h3>
+                        <h2 className="score">{this.props.data.away_runs}</h2>
                     </div>
                     <div className="divider">
                         @
                     </div>
                     <div className="team-section">
-                        <h3>{home_team.team.abbrev}</h3>
+                        <h2 className="team-name">{home_team.team.abbrev}</h2>
                         <span className="team-record">({home_team.wins}-{home_team.losses})</span>
-                        <h3>{this.props.data.home_runs}</h3>
+                        <h2 className="score">{this.props.data.home_runs}</h2>
                     </div>
                 </div>
 
-                <h4>{this.props.data.status}</h4>
-                <h4>{this.props.data.top_inning ? 'Top' : 'Bottom'} {this.props.data.inning}</h4>
-
-                <p>
-                    Number Fire: <b>{number_fire_favorite.abbrev}</b> by <b>{this.props.data.number_fire_odds}%</b>
+                <p className="game-info">
+                    <span className="important-text">{this.props.data.status}</span> <br />
+                    <span className="important-text">{this.props.data.top_inning ? 'Top' : 'Bottom'} {this.props.data.inning}</span>
                 </p>
 
-                <p>
+                <p className="odds-section">
+                    Number Fire: <b>{number_fire_favorite.abbrev}</b> by <b>{this.props.data.number_fire_odds}%</b> <br />
                     Standings: <b>{this.props.data.standings_favorite.team.abbrev}</b> by <b>{this.props.data.standings_percent}%</b>
                 </p>
 

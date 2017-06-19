@@ -5,8 +5,12 @@
   height: 40px;
 }
 
-.team-section h3 {
+.team-section h2.team-name {
 	margin-bottom: 0;
+}
+
+.team-section h2.score {
+	margin: 5px auto;
 }
 
 .divider {
@@ -21,4 +25,9 @@ span.team-record {
 }
 h4 {
 	margin: 3px;
+}
+
+.game-info .important-text {
+	font-weight: bold;
+	font-size: 16px;
 }
