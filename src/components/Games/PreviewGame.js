@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import './Games.css';
 
 class PreviewGame extends Component {
@@ -17,12 +18,15 @@ class PreviewGame extends Component {
             }
         }
 
+        var time = moment(this.props.data.date).format('h:mm a');
+
         return (
             <div className="matchup-preview matchup">
 
                 <div className="top">
                     <div className="team-section">
                         <h3>{away_team.team.abbrev}</h3>
+                        <span className="team-record">({away_team.wins}-{away_team.losses})</span>
                         <h3>{this.props.data.away_runs}</h3>
                     </div>
                     <div className="divider">
@@ -30,18 +34,19 @@ class PreviewGame extends Component {
                     </div>
                     <div className="team-section">
                         <h3>{home_team.team.abbrev}</h3>
+                        <span className="team-record">({home_team.wins}-{home_team.losses})</span>
                         <h3>{this.props.data.home_runs}</h3>
                     </div>
                 </div>
 
-                <h4>{this.props.data.status}</h4>
-
-                <p>
-                    Number Fire Favorite: <b>{number_fire_favorite.abbrev}</b> by <b>{this.props.data.number_fire_odds}%</b>
+                <p className="game-info">
+                    <h4>{this.props.data.status}</h4>
+                    <h4>{time}</h4>
                 </p>
 
-                <p>
-                    Standings Favorite: <b>{this.props.data.standings_favorite.team.abbrev}</b> by <b>{this.props.data.standings_percent}%</b>
+                <p className="odds-section">
+                    Number Fire: <b>{number_fire_favorite.abbrev}</b> by <b>{this.props.data.number_fire_odds}%</b> <br />
+                    Standings: <b>{this.props.data.standings_favorite.team.abbrev}</b> by <b>{this.props.data.standings_percent}%</b>
                 </p>
 
             </div>
