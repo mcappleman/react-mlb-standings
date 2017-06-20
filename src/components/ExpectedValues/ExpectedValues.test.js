@@ -12,6 +12,18 @@ it('renders without crashing', () => {
   		
 });
 
+describe('It should work even if there are no games', () => {
+
+	it('should render without crashing', () => {
+
+		var games = [];
+		const div = document.createElement('div');
+		ReactDOM.render(<ExpectedValues data={games} />, div);
+
+	});
+
+});
+
 describe('sort odds', () => {
 
 	it('sort array with all the same value', () => {

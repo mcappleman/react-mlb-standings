@@ -29,11 +29,12 @@ class DailyGames extends Component {
 
     getGames(day) {
 
-        this.setState({ selectedDate: day });
-
-        MLBService.getGames(day)
+        return MLBService.getGames(day)
         .then((games) => {
+
+            this.setState({ selectedDate: day });
             this.setState({ games });
+
         });
 
     }

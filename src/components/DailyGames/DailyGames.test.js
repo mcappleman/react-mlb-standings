@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import moment from 'moment';
 import DailyGames from './DailyGames';
 
 it('renders without crashing', () => {
