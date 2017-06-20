@@ -18,7 +18,12 @@ describe('Get the games for a particular day', () => {
 		// var dailyGames = new DailyGames();
 		const wrapper = mount(<DailyGames />);
 
-		// wrapper.getGames
+		wrapper.getGames(d)
+		.then(() => {
+			console.log(wrapper.state);
+			expect(true).toBe(true);
+			done();
+		})
 
 	});
 
