@@ -31,3 +31,7 @@ h4 {
 	font-weight: bold;
 	font-size: 16px;
 }
+
+.matchup-final .game-info {
+	line-height: 2.3;
+}
