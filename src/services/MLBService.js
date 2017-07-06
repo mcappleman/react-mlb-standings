@@ -1,11 +1,12 @@
-'use strict'
 
 var request = require('request');
 var config  = require('../config/config');
 var moment 	= require('moment');
 
 module.exports = {
-	getGames
+	getGames,
+	getTeams,
+	submitRatings
 }
 
 function getGames(day) {
@@ -29,6 +30,36 @@ function getGames(day) {
 
 	})
 	
+}
+
+function getTeams() {
+
+	var url = `${config.MLB_STANDINGS_URL}/standings`;
+
+	return promisfy(url)
+	.then((response) => {
+
+		var teams = response.data;
+
+		return teams;
+
+	});
+	
+}
+
+function submitRatings(teams) {
+
+	var url = `${config.MLB_STANDINGS_URL}/standings`;
+
+	return promisfy(url)
+	.then((response) => {
+
+		var teams = response.data;
+
+		return teams;
+
+	});
+
 }
 
 function promisfy(url) {
