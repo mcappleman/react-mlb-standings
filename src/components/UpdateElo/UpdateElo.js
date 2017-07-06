@@ -29,11 +29,31 @@ class UpdateElo extends Component {
 
             this.setState({ teams });
 
+        })
+        .catch((err) => {
+
+            this.setState({ teams: [] });
+
         });
 
     }
 
-    submitTeams() {
+    submitTeams(e) {
+
+        e.preventDefault();
+        console.log(this);
+
+        return MLBService.submitRatings(this.state.teams)
+        .then((res) => {
+
+            console.log(res);
+
+        })
+        .catch((err) => {
+
+            this.setState({ teams: [] });
+
+        });
 
     }
 
@@ -42,7 +62,7 @@ class UpdateElo extends Component {
         return (
             <div>
                 <h2>Update Elo Ratings</h2>
-                <form className="team-form" onSubmit={this.submitTeams}>
+                <form className="team-form" onSubmit={this.submitTeams.bind(this)}>
                     <div className="line-container">
                         {this.state.teams.map((team) => {
                             return <TeamFormLine key={team._id} data={team} />

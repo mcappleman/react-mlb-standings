@@ -49,11 +49,28 @@ function getTeams() {
 
 function submitRatings(teams) {
 
+	var promises = [];
+
+	teams.forEach((team) => {
+
+		var promise = submitSingleRating(team);
+		promises.push(promise);
+
+	});
+
+	return Promise.all(promises);
+
+}
+
+function submitSingleRating(team) {
+
 	var reqOpts = {
-		url: `${config.MLB_STANDINGS_URL}/standings`,
+		method: 'PUT',
+		url: `${config.MLB_STANDINGS_URL}/record/${team._id}`,
+		data: team
 	}
 
-	return promisfy(url)
+	return promisfy(reqOpts)
 	.then((response) => {
 
 		var teams = response.data;

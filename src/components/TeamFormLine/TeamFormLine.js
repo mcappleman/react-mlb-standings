@@ -9,8 +9,6 @@ class TeamFormLine extends Component {
 
         var team = this.props.data;
 
-        console.log(team);
-
         return (
             <div className="team-form-line">
                 <label>
