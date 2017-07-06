@@ -41,6 +41,13 @@ function getTeams() {
 
 		var teams = response.data;
 
+		teams.forEach((team) => {
+			console.log(team.elo_rating);
+			if (!team.elo_rating) {
+				team.elo_rating = '0';
+			}
+		});
+
 		return teams;
 
 	});
@@ -49,25 +56,46 @@ function getTeams() {
 
 function submitRatings(teams) {
 
-	var promises = [];
+	var index = 0;
 
-	teams.forEach((team) => {
+	return new Promise((resolve, reject) => {
 
-		var promise = submitSingleRating(team);
-		promises.push(promise);
+		iter();
+
+		function iter() {
+
+			if (index >= teams.length) {
+				return resolve();
+			}
+
+			return submitSingleRating(teams[index])
+			.then((record) => {
+				index++;
+				return iter();
+			})
+			.catch((err) => {
+				return reject(err);
+			});
+
+		}
 
 	});
-
-	return Promise.all(promises);
 
 }
 
 function submitSingleRating(team) {
 
+	if (!team.elo_rating) {
+		return Promise.resolve();
+	}
+
+	team.rating = Number(team.elo_rating);
+
 	var reqOpts = {
 		method: 'PUT',
 		url: `${config.MLB_STANDINGS_URL}/record/${team._id}`,
-		data: team
+		body: team,
+		json: true
 	}
 
 	return promisfy(reqOpts)
@@ -89,7 +117,11 @@ function promisfy(url) {
 
 			if (err) { return reject(err); }
 
-			return resolve(JSON.parse(data));
+			try {
+				return resolve(JSON.parse(data));
+			} catch(e) {
+				return resolve(data);
+			}
 
 		});
 

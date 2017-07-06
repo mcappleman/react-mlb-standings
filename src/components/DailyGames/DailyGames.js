@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
-import Header from '../Header/Header';
 import Matchup from '../Matchup/Matchup';
 import ExpectedValues from '../ExpectedValues/ExpectedValues';
 

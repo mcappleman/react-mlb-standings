@@ -41,19 +41,36 @@ class UpdateElo extends Component {
     submitTeams(e) {
 
         e.preventDefault();
-        console.log(this);
 
         return MLBService.submitRatings(this.state.teams)
         .then((res) => {
 
-            console.log(res);
+            window.location.replace('/');
 
         })
         .catch((err) => {
 
-            this.setState({ teams: [] });
+            console.log(err);
 
         });
+
+    }
+
+    handleChange(teamId, value) {
+
+        var teams = this.state.teams;
+        var index = 0;
+
+        for (var i = 0; i < teams.length; i++) {
+            if (teamId === teams[i]._id) {
+                index = i;
+                break;
+            }
+        }
+
+        teams[index].elo_rating = value;
+
+        this.setState({ teams });
 
     }
 
@@ -64,8 +81,9 @@ class UpdateElo extends Component {
                 <h2>Update Elo Ratings</h2>
                 <form className="team-form" onSubmit={this.submitTeams.bind(this)}>
                     <div className="line-container">
-                        {this.state.teams.map((team) => {
-                            return <TeamFormLine key={team._id} data={team} />
+                        {this.state.teams.map((team, index) => {
+                            var teamInfo = { team, index };
+                            return  <TeamFormLine key={team._id} data={teamInfo} onChange={this.handleChange.bind(this)} />
                         })}
                     </div>
                     <button type="submit">Submit</button>
