@@ -49,7 +49,9 @@ function getTeams() {
 
 function submitRatings(teams) {
 
-	var url = `${config.MLB_STANDINGS_URL}/standings`;
+	var reqOpts = {
+		url: `${config.MLB_STANDINGS_URL}/standings`,
+	}
 
 	return promisfy(url)
 	.then((response) => {
