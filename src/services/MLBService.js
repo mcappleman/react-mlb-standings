@@ -42,7 +42,6 @@ function getTeams() {
 		var teams = response.data;
 
 		teams.forEach((team) => {
-			console.log(team.elo_rating);
 			if (!team.elo_rating) {
 				team.elo_rating = '0';
 			}

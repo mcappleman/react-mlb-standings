@@ -82,8 +82,7 @@ class UpdateElo extends Component {
                 <form className="team-form" onSubmit={this.submitTeams.bind(this)}>
                     <div className="line-container">
                         {this.state.teams.map((team, index) => {
-                            var teamInfo = { team, index };
-                            return  <TeamFormLine key={team._id} data={teamInfo} onChange={this.handleChange.bind(this)} />
+                            return  <TeamFormLine key={team._id} data={team} onChange={this.handleChange.bind(this)} />
                         })}
                     </div>
                     <button type="submit">Submit</button>

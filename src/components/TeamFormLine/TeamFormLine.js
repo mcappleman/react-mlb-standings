@@ -10,8 +10,7 @@ class TeamFormLine extends Component {
 
     render() {
 
-        var team = this.props.data.team;
-        var index = this.props.data.index;
+        var team = this.props.data;
 
         return (
             <div className="team-form-line">
