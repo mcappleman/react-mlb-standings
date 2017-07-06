@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './Games.css';
 
+import TeamSection from '../TeamSection/TeamSection';
+import OddsSection from '../OddsSection/OddsSection';
+
 class FinalGame extends Component {
 
     render() {
@@ -21,29 +24,27 @@ class FinalGame extends Component {
             <div className="matchup-final matchup">
 
                 <div className="top">
-                    <div className="team-section">
-                        <h2 className="team-name">{away_team.team.abbrev}</h2>
-                        <span className="team-record">({away_team.wins}-{away_team.losses})</span>
-                        <h2 className="score">{this.props.data.away_runs}</h2>
-                    </div>
+                    <TeamSection data={{team: away_team, runs: this.props.data.away_runs}} />
                     <div className="divider">
                         @
                     </div>
-                    <div className="team-section">
-                        <h2 className="team-name">{home_team.team.abbrev}</h2>
-                        <span className="team-record">({home_team.wins}-{home_team.losses})</span>
-                        <h2 className="score">{this.props.data.home_runs}</h2>
-                    </div>
+                    <TeamSection data={{team: home_team, runs: this.props.data.home_runs}} />
                 </div>
 
                 <p className="game-info">
                     <span className="important-text">{this.props.data.status}</span>
                 </p>
 
-                <p className="odds-section">
-                    Number Fire: <b>{number_fire_favorite.abbrev}</b> by <b>{this.props.data.number_fire_odds}%</b> <br />
-                    Standings: <b>{this.props.data.standings_favorite.team.abbrev}</b> by <b>{this.props.data.standings_percent}%</b>
-                </p>
+                <OddsSection data={{
+                    number_fire: {
+                        abbrev: number_fire_favorite.abbrev,
+                        odds: this.props.data.number_fire_odds
+                    },
+                    standings: {
+                        favorite: this.props.data.standings_favorite.team,
+                        percent: this.props.data.standings_percent
+                    }
+                }} />
 
             </div>
         );

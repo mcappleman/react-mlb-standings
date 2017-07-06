@@ -1,0 +1,13 @@
+.line-container{ 
+	margin: 5px auto;
+}
+
+button[type="submit"] {
+	background: #000;
+	color: #fff;
+	font-size: 24px;
+	border: none;
+	padding: 10px 35px;
+	width: 200px;
+	margin: 10px;
+}

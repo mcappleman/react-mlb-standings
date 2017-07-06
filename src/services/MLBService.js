@@ -1,11 +1,12 @@
-'use strict'
 
 var request = require('request');
 var config  = require('../config/config');
 var moment 	= require('moment');
 
 module.exports = {
-	getGames
+	getGames,
+	getTeams,
+	submitRatings
 }
 
 function getGames(day) {
@@ -31,6 +32,82 @@ function getGames(day) {
 	
 }
 
+function getTeams() {
+
+	var url = `${config.MLB_STANDINGS_URL}/standings`;
+
+	return promisfy(url)
+	.then((response) => {
+
+		var teams = response.data;
+
+		teams.forEach((team) => {
+			if (!team.elo_rating) {
+				team.elo_rating = '0';
+			}
+		});
+
+		return teams;
+
+	});
+	
+}
+
+function submitRatings(teams) {
+
+	var index = 0;
+
+	return new Promise((resolve, reject) => {
+
+		iter();
+
+		function iter() {
+
+			if (index >= teams.length) {
+				return resolve();
+			}
+
+			return submitSingleRating(teams[index])
+			.then((record) => {
+				index++;
+				return iter();
+			})
+			.catch((err) => {
+				return reject(err);
+			});
+
+		}
+
+	});
+
+}
+
+function submitSingleRating(team) {
+
+	if (!team.elo_rating) {
+		return Promise.resolve();
+	}
+
+	team.rating = Number(team.elo_rating);
+
+	var reqOpts = {
+		method: 'PUT',
+		url: `${config.MLB_STANDINGS_URL}/record/${team._id}`,
+		body: team,
+		json: true
+	}
+
+	return promisfy(reqOpts)
+	.then((response) => {
+
+		var teams = response.data;
+
+		return teams;
+
+	});
+
+}
+
 function promisfy(url) {
 
 	return new Promise((resolve, reject) => {
@@ -39,7 +116,11 @@ function promisfy(url) {
 
 			if (err) { return reject(err); }
 
-			return resolve(JSON.parse(data));
+			try {
+				return resolve(JSON.parse(data));
+			} catch(e) {
+				return resolve(data);
+			}
 
 		});
 
