@@ -120,16 +120,27 @@ function getEloOdds(game) {
 	var awayElo = game.away_team.elo_rating-3;
 
 	game.elo_favorite = game.away_team;
-	game.elo_percent = Number(((awayElo/(homeElo+awayElo))*100).toFixed(2));
+	game.elo_percent = eloPercent(awayElo, homeElo);
 
 	if (homeFavorite) {
 
 		game.elo_favorite = game.home_team;
-		game.elo_percent = Number(((homeElo/(homeElo+awayElo))*100).toFixed(2));
+		game.elo_percent = eloPercent(homeElo, awayElo);
 
 	}
 
 	return game;
+
+}
+
+function eloPercent(fav, notFav) {
+
+	var power = 10;
+	var divisor = 400;
+
+	var percent = Math.pow(fav/divisor, power)/(Math.pow(fav/divisor, power) + Math.pow(notFav/divisor, power));
+
+	return Number((percent*100).toFixed(2));
 
 }
 

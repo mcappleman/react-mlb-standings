@@ -7,6 +7,7 @@ class ExpectedValues extends Component {
 
 		super();
 		this.state = {
+			eloValues: [],
 			numberFireValues: [],
 			pointValues: [18, 33, 60, 109, 198, 361, 657],
 			standingsValues: []
@@ -17,6 +18,7 @@ class ExpectedValues extends Component {
 	componentWillReceiveProps(nextProps) {
 
 		this.getBestStandings(nextProps.data);
+		this.getEloOdds(nextProps.data);
 		this.getNumberFireOdds(nextProps.data);
 		
 	}
@@ -40,6 +42,15 @@ class ExpectedValues extends Component {
 		var expvalues = this.getExpectedValueArray(odds);
 
 		this.setState({ numberFireValues: expvalues });
+
+	}
+
+	getEloOdds(games) {
+
+		var odds = this.getOdds(games, 'elo_percent');
+		var expvalues = this.getExpectedValueArray(odds);
+
+		this.setState({ eloValues: expvalues });
 
 	}
 
@@ -114,6 +125,12 @@ class ExpectedValues extends Component {
 	                		<tr>
 	                			<td>Number Fire</td>
 			                    {this.state.numberFireValues.map((value, i) => {
+			                        return <td key={i}>{value.toFixed(2)}</td>
+			                    })}
+	                		</tr>
+	                		<tr>
+	                			<td>Elo Ratings</td>
+			                    {this.state.eloValues.map((value, i) => {
 			                        return <td key={i}>{value.toFixed(2)}</td>
 			                    })}
 	                		</tr>
