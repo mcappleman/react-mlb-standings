@@ -19,12 +19,16 @@ function getGames(day) {
 		var games = response.data;
 		games.forEach((game) => {
 
+			game = getEloOdds(game);
+
 			game.standings_favorite = game.home_team.win_percent > game.away_team.win_percent ? game.home_team : game.away_team;
 			game.standings_percent = Number(((game.standings_favorite.win_percent/(game.home_team.win_percent+game.away_team.win_percent))*100).toFixed(2));
 			var d = moment(game.date).add(4, 'hours');
 			game.date = d;
 
 		});
+
+		console.log(games);
 
 		return games;
 
@@ -105,6 +109,27 @@ function submitSingleRating(team) {
 		return teams;
 
 	});
+
+}
+
+function getEloOdds(game) {
+
+	var homeFavorite = game.home_team.elo_rating+24 > game.away_team.elo_rating-3 ? true : false;
+
+	var homeElo = game.home_team.elo_rating+24;
+	var awayElo = game.away_team.elo_rating-3;
+
+	game.elo_favorite = game.away_team;
+	game.elo_percent = Number(((awayElo/(homeElo+awayElo))*100).toFixed(2));
+
+	if (homeFavorite) {
+
+		game.elo_favorite = game.home_team;
+		game.elo_percent = Number(((homeElo/(homeElo+awayElo))*100).toFixed(2));
+
+	}
+
+	return game;
 
 }
 

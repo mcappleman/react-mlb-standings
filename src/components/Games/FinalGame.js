@@ -36,6 +36,10 @@ class FinalGame extends Component {
                 </p>
 
                 <OddsSection data={{
+                    elo: {
+                        abbrev: this.props.data.elo_favorite.team.abbrev,
+                        odds: this.props.data.elo_percent
+                    },
                     number_fire: {
                         abbrev: number_fire_favorite.abbrev,
                         odds: this.props.data.number_fire_odds
