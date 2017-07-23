@@ -15,7 +15,7 @@ class TeamSection extends Component {
         return (
             <div className="team-section">
                 <h2 className="team-name"><Link to={`/team/${team.team._id}`}>{team.team.abbrev}</Link></h2>
-                <span className="team-record">({team.wins}-{team.losses})<br />({expRecord.wins}-{expRecord.losses})</span>
+                <span className="team-record">({team.wins}-{team.losses})<br />({expRecord.wins}-{expRecord.losses})<br />{team.elo_rating}</span>
                 <h2 className="score">{runs}</h2>
             </div>
         );

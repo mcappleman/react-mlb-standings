@@ -21,7 +21,7 @@ class PreviewGame extends Component {
             }
         }
 
-        var time = moment(this.props.data.date).format('h:mm a');
+        var time = moment(this.props.data.date).format('ddd MM/DD h:mm a');
 
         return (
             <div className="matchup-preview matchup">
