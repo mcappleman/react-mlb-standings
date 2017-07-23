@@ -6,6 +6,7 @@ var moment 	= require('moment');
 module.exports = {
 	getGames,
 	getTeams,
+	getSchedule,
 	submitRatings
 }
 
@@ -28,11 +29,9 @@ function getGames(day) {
 
 		});
 
-		console.log(games);
-
 		return games;
 
-	})
+	});
 	
 }
 
@@ -55,6 +54,33 @@ function getTeams() {
 
 	});
 	
+}
+
+function getSchedule(teamId) {
+
+	var url = `${config.MLB_STANDINGS_URL}/schedule/${teamId}`;
+
+	return promisfy(url)
+	.then((response) => {
+
+		var games = response.data;
+		console.log(games);
+		console.log(response);
+		games.forEach((game) => {
+
+			game = getEloOdds(game);
+
+			game.standings_favorite = game.home_team.win_percent > game.away_team.win_percent ? game.home_team : game.away_team;
+			game.standings_percent = Number(((game.standings_favorite.win_percent/(game.home_team.win_percent+game.away_team.win_percent))*100).toFixed(2));
+			var d = moment(game.date).add(4, 'hours');
+			game.date = d;
+
+		});
+
+		return games;
+
+	});
+
 }
 
 function submitRatings(teams) {
