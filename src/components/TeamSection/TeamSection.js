@@ -7,9 +7,15 @@ class TeamSection extends Component {
 
         var team = this.props.data.team;
         var runs = this.props.data.runs;
+		if (!team.exp_wins) {
+				team.exp_wins = 0;
+		}
+		if (!team.exp_losses) {
+				team.exp_losses = 0;
+		}
         var expRecord = {
-            wins: team.exp_wins.toFixed(2),
-            losses: team.exp_losses.toFixed(2)
+            wins: team.exp_wins.toFixed(2) || 0,
+            losses: team.exp_losses.toFixed(2) || 0
         }
 
         return (
