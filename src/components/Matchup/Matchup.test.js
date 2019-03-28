@@ -18,6 +18,7 @@ it('renders without crashing', () => {
 			},
 			"wins": 21,
 			"losses": 42,
+			"elo_rating": 1444.4444,
 			"year": 2017,
 			"win_percent": 0.3333333333333333
 		},
@@ -33,6 +34,7 @@ it('renders without crashing', () => {
 			"wins": 36,
 			"losses": 28,
 			"year": 2017,
+			"elo_rating": 1444.4444,
 			"win_percent": 0.5625
 		},
 		"home_runs": 0,
